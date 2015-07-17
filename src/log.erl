@@ -48,8 +48,8 @@ log(Severity, Message, Metadata) ->
     _ = application:start(?APP), %% Hmmm...
     case application:get_env(?APP, logger) of
         {ok, Logger} ->
-            Data = Metadata#{severity => Severity,
-                             message => Message,
+            Data = Metadata#{message => Message,
+                             severity => Severity,
                              timestamp => erlang:now()}, %% Hmmm...
             case Logger of
                 Fun when is_function(Fun) ->
