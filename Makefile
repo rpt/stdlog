@@ -4,7 +4,8 @@ all: compile
 
 clean:
 	@ rebar skip_deps=true clean
-	@- rmdir ebin
+	@- rm -df ebin
+	@- rm -f erl_crash.dump
 
 compile:
 	@ rebar skip_deps=true compile

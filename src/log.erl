@@ -48,9 +48,15 @@ log(Severity, Message, Metadata) ->
     _ = application:start(?APP), %% Hmmm...
     case application:get_env(?APP, logger) of
         {ok, Logger} ->
-            Logger:log(Metadata#{severity => Severity,
-                                 message => Message,
-                                 timestamp => erlang:now()});
+            Data = Metadata#{severity => Severity,
+                             message => Message,
+                             timestamp => erlang:now()}, %% Hmmm...
+            case Logger of
+                Fun when is_function(Fun) ->
+                    Fun(Data);
+                Module when is_atom(Module) ->
+                    Module:log(Data)
+            end;
         undefined ->
             erlang:error(no_logger)
     end.
