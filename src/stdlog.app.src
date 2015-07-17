@@ -1,0 +1,6 @@
+{application, stdlog,
+ [{description, "Standarized Erlang Logging"},
+  {vsn, "0.0.1"},
+  {registered, []},
+  {applications, [kernel,
+                  stdlib]}]}.
