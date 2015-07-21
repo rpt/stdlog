@@ -5,7 +5,7 @@
 
 parse_transform(Forms, Options) ->
     _ = put(hardcode_logger, proplists:get_value(stdlog_hardcode_logger, Options, log)),
-    case proplists:get_value(stdlog_replace_lagger, Options, false) of
+    case proplists:get_value(stdlog_replace_lager, Options, false) of
         true ->
             ok = path:add_callback(call, fun replace_lager/1);
         false ->
