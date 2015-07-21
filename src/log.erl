@@ -16,6 +16,7 @@
 -export([info/2]).
 -export([debug/1]).
 -export([debug/2]).
+-export([log/1]).
 
 -export_type([severity/0]).
 -export_type([message/0]).
@@ -45,12 +46,14 @@ debug(Message, Metadata) -> log(debug, Message, Metadata).
 
 -spec log(severity(), message(), metadata()) -> ok | no_return().
 log(Severity, Message, Metadata) ->
-    _ = application:start(?APP), %% Hmmm...
+    log(Metadata#{message => Message,
+                  severity => Severity,
+                  timestamp => erlang:now()}). %% Hmmm...
+
+-spec log(map()) -> ok | no_return().
+log(Data) ->
     case application:get_env(?APP, logger) of
         {ok, Logger} ->
-            Data = Metadata#{message => Message,
-                             severity => Severity,
-                             timestamp => erlang:now()}, %% Hmmm...
             case Logger of
                 Fun when is_function(Fun) ->
                     Fun(Data);
